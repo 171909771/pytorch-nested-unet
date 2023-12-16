@@ -43,9 +43,13 @@ def main():
 
     # create model
     print("=> creating model %s" % config['arch'])
-    model = archs.__dict__[config['arch']](config['num_classes'],
-                                           config['input_channels'],
-                                           config['deep_supervision'])
+    if config['arch'] == 'NestedUNet':        
+        model = archs.__dict__[config['arch']](config['num_classes'],
+                                               config['input_channels'],
+                                               config['deep_supervision'])
+    else:
+        model = archs.__dict__[config['arch']](config['num_classes'],
+                                               config['input_channels'])  
 
     model = model.cuda()
 
