@@ -18,7 +18,7 @@ from tqdm import tqdm
 import archs
 import losses
 from dataset import Dataset
-from metrics import iou_score
+from metrics import iou_score, dice_coef
 from utils import AverageMeter, str2bool
 
 ARCH_NAMES = archs.__all__
@@ -118,11 +118,13 @@ def train(config, train_loader, model, criterion, optimizer):
             loss = 0
             for output in outputs:
                 loss += criterion(output, target)
+                loss += 1 - dice_coef(output, target)
             loss /= len(outputs)
             iou = iou_score(outputs[-1], target)
         else:
             output = model(input)
             loss = criterion(output, target)
+            loss += 1 - dice_coef(output, target)
             iou = iou_score(output, target)
 
         # compute gradient and do optimizing step
@@ -164,11 +166,13 @@ def validate(config, val_loader, model, criterion):
                 loss = 0
                 for output in outputs:
                     loss += criterion(output, target)
+                    loss += 1 - dice_coef(output, target)
                 loss /= len(outputs)
                 iou = iou_score(outputs[-1], target)
             else:
                 output = model(input)
                 loss = criterion(output, target)
+                loss += 1 - dice_coef(output, target)
                 iou = iou_score(output, target)
 
             avg_meters['loss'].update(loss.item(), input.size(0))
