@@ -231,6 +231,9 @@ def main():
     elif config['optimizer'] == 'SGD':
         optimizer = optim.SGD(params, lr=config['lr'], momentum=config['momentum'],
                               nesterov=config['nesterov'], weight_decay=config['weight_decay'])
+    elif config['optimizer'] == 'RMS':
+        optimizer = optim.RMSprop(params,
+                              lr=config['lr'], weight_decay=config['weight_decay'], momentum=config['momentum'], foreach=True)
     else:
         raise NotImplementedError
 
