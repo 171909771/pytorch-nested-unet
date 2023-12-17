@@ -69,9 +69,9 @@ def parse_args():
 
     # optimizer
     parser.add_argument('--optimizer', default='SGD',
-                        choices=['Adam', 'SGD'],
+                        choices=['Adam', 'SGD', 'RMS'],
                         help='loss: ' +
-                        ' | '.join(['Adam', 'SGD']) +
+                        ' | '.join(['Adam', 'SGD', 'RMS']) +
                         ' (default: Adam)')
     parser.add_argument('--lr', '--learning_rate', default=1e-3, type=float,
                         metavar='LR', help='initial learning rate')
